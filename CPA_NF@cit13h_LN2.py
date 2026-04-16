@@ -174,34 +174,29 @@ def detectar_TF_y_plot(t,T,T_central=0,delta_T=0.2,umbral_dTdt=0.15,min_puntos=5
         return mesetas, fig, ax, ax2
 
     return mesetas, None, None, None
-#%% Levanto los archivos de templog
-paths_152 = glob('CPA-400uL_FF-100uL/*152dA*templog*',recursive=True)
-paths_152.sort()
-paths_125 = glob('CPA-400uL_FF-100uL/*125dA*templog*',recursive=True)
-paths_125.sort()
-paths_100 = glob('CPA-400uL_FF-100uL/*100dA*templog*',recursive=True)
-paths_100.sort()
-paths_RT = glob('CPA-400uL_FF-100uL/*sincampo*templog*',recursive=True)
-
-
-
-#%%
-%matplotlib 
+#%% 400 CPA - 100 FF - NF@cit_13h diluido a la mitad
+dir_1 =  '1_CPA-400uL_FF-100uL'
+paths_152_1 = glob(dir_1+'/*152dA*templog*',recursive=True)
+paths_152_1.sort()
+paths_125_1 = glob(dir_1+'/*125dA*templog*',recursive=True)
+paths_125_1.sort()
+paths_100_1 = glob(dir_1+'/*100dA*templog*',recursive=True)
+paths_100_1.sort()
+paths_RT_1 = glob(dir_1+'/*sincampo*templog*',recursive=True)
 
 fig00, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,8),constrained_layout=True,sharey=True,sharex=True
                                   )
+_,t_RT,T_RT,_ = lector_templog(paths_RT_1[0])
 
-_,t_RT,T_RT,_ = lector_templog(paths_RT[0])
-
-for i,r in enumerate(paths_152):
+for i,r in enumerate(paths_152_1):
     _,t,T, _ = lector_templog(r)
     ax.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
-for i,r in enumerate(paths_125):
+for i,r in enumerate(paths_125_1):
     _,t,T, _ = lector_templog(r)
     ax2.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
-for i,r in enumerate(paths_100):
+for i,r in enumerate(paths_100_1):
     _,t,T, _ = lector_templog(r)
     ax3.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
@@ -209,34 +204,33 @@ ax3.plot(t_RT,T_RT,'.-',label='RT')
 
 for a in ax,ax2,ax3:
     a.grid()
-    a.legend(loc='lower right')
     a.set_ylabel('T (ºC)')
     a.set_xlim(0,)
+    
+ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',loc='lower right',frameon=True,shadow=True)
+ax2.legend(title='$f$= 300 kHz - $H_0$=47 kA/m',loc='lower right',frameon=True,shadow=True)
+ax3.legend(title='$f$= 300 kHz - $H_0$=38 kA/m',loc='lower right',frameon=True,shadow=True)
+
 ax3.set_xlabel('t (s)')
-ax.set_title('58 kA/m',loc='left')
-ax2.set_title('47 kA/m',loc='left')
-ax3.set_title('38 kA/m',loc='left')
-plt.suptitle(f'Templogs\nCPA: 400 uL - NF@cit_13h: 100 uL')
-plt.savefig('comparativa_templogs_152_125_100_RT_misma_escala.png',dpi=300)
+# ax.set_title('58 kA/m',loc='left')
+# ax2.set_title('47 kA/m',loc='left')
+# ax3.set_title('38 kA/m',loc='left')
+plt.suptitle(f'CPA: 400 uL - NF@cit_13h: 100 uL')
+plt.savefig('1_templogs_152_125_100_RT_400_100_misma_escala.png',dpi=300)
 
+fig01, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,8),constrained_layout=True,sharey=True,sharex=False)
 
+_,t_RT,T_RT,_ = lector_templog(paths_RT_1[0])
 
-#%%
-
-
-fig00, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,8),constrained_layout=True,sharey=True,sharex=False)
-
-_,t_RT,T_RT,_ = lector_templog(paths_RT[0])
-
-for i,r in enumerate(paths_152):
+for i,r in enumerate(paths_152_1):
     _,t,T, _ = lector_templog(r)
     ax.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
-for i,r in enumerate(paths_125):
+for i,r in enumerate(paths_125_1):
     _,t,T, _ = lector_templog(r)
     ax2.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
-for i,r in enumerate(paths_100):
+for i,r in enumerate(paths_100_1):
     _,t,T, _ = lector_templog(r)
     ax3.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
@@ -244,343 +238,103 @@ ax3.plot(t_RT,T_RT,'.-',label='RT')
 
 for a in ax,ax2,ax3:
     a.grid()
-    a.legend(loc='lower right')
     a.set_ylabel('T (ºC)')
     a.set_xlim(0,)
 ax3.set_xlabel('t (s)')
-ax.set_title('58 kA/m',loc='left')
-ax2.set_title('47 kA/m',loc='left')
-ax3.set_title('38 kA/m',loc='left')
-plt.suptitle(f'Templogs\nCPA: 400 uL - NF@cit_13h: 100 uL')
-plt.savefig('comparativa_templogs_152_125_100_RT_distinta_escala.png',dpi=300)
 
+ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',loc='lower right',frameon=True,shadow=True)
+ax2.legend(title='$f$= 300 kHz - $H_0$=47 kA/m',loc='lower right',frameon=True,shadow=True)
+ax3.legend(title='$f$= 300 kHz - $H_0$=38 kA/m',loc='lower right',frameon=True,shadow=True)
 
+# ax.set_title('58 kA/m',loc='left')
+# ax2.set_title('47 kA/m',loc='left')
+# ax3.set_title('38 kA/m',loc='left')
+plt.suptitle(f'CPA: 400 uL - NF@cit_13h: 100 uL')
+plt.savefig('1_templogs_152_125_100_RT_400_100_distinta_escala.png',dpi=300)
 
+#%% 425 CPA - 75 FF - NF@cit_13h diluido a la mitad
 
+dir_2 =  '2_CPA-425uL_FF-75uL'
+paths_152_2 = glob(dir_2+'/*152dA*templog*',recursive=True)
+paths_152_2.sort()
 
+fig10, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
 
-
-
-
-
-
-
-
-
-
-#%%
-_,t_100,T_100,_ = lector_templog(path_1)
-_,t_050,T_050,_ = lector_templog(path_2)
-_,t_agua,T_agua,_ = lector_templog(path_3)
-
-
-fig00, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('CPA 100% 50% y 0%  - enfriado en LN2 - expuesto a BT1',loc='left')
-ax.plot(t_agua,T_agua,'.-',label='Agua',alpha=0.8)
-ax.plot(t_050,T_050,'.-',label='CPA050',alpha=0.8)
-ax.plot(t_100,T_100,'.-',label='CPA100',alpha=0.8)
+for i,r in enumerate(paths_152_2):
+    _,t,T, _ = lector_templog(r)
+    ax.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
 ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
+ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
+ax.set_ylabel('T (ºC)')
 ax.set_xlim(0,)
-plt.show()
-#%% 4,5,6 CPA100/050/000 - 500 uL - BT1 Vapor  
-path_4 = '260325_121904_CPA100_BT1_500uL_vapor.csv'
-path_5 = '260325_123339_CPA050_BT1_500uL_vapor.csv'
-path_6 = '260325_124612_agua_BT1_500uL_vapor.csv'
+ax.set_xlabel('t (s)')
+plt.suptitle(f'CPA: 425 uL - NF@cit_13h: 75 uL')
+plt.savefig('2_templogs_152dA_425-75.png',dpi=300)
 
-_,t_100,T_100,_ = lector_templog(path_4)
-_,t_050,T_050,_ = lector_templog(path_5)
-_,t_agua,T_agua,_ = lector_templog(path_6)
+#%% 450 CPA - 50 FF - NF@cit_13h diluido a la mitad
+dir_3 =  '3_CPA-450uL_FF-50uL'
+paths_152_3 = glob(dir_3+'/*152dA*templog*',recursive=True)
+paths_152_3.sort()
 
-#%
-fig01, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
+paths_125_3 = glob(dir_3+'/*125dA*templog*',recursive=True)
+paths_125_3.sort()
 
-ax.set_title('CPA 100% 50% y 0%  - enfriado en vapor LN2 - expuesto a BT1',loc='left')
-ax.plot(t_agua,T_agua,'.-',label='Agua',alpha=0.8)
-ax.plot(t_050,T_050,'.-',label='CPA050',alpha=0.8)
-ax.plot(t_100,T_100,'.-',label='CPA100',alpha=0.8)
+fig30, (ax,ax2) =plt.subplots(2,1,figsize=(10,7),constrained_layout=True,sharex=True)
+
+for i,r in enumerate(paths_152_3):
+    _,t,T, _ = lector_templog(r)
+    ax.plot(t,T,'.-',label=r.split('_')[-1][:-4])
+
+for i,r in enumerate(paths_125_3):
+    _,t,T, _ = lector_templog(r)
+    ax2.plot(t,T,'.-',label=r.split('_')[-1][:-4])
+    
+for a in ax,ax2:
+    a.grid()
+    a.set_ylabel('T (ºC)')
+    a.set_xlim(0,)
+
+ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
+ax2.legend(title=' $f$= 300 kHz - $H_0$=47 kA/m',frameon=True,shadow=True)
+ax2.set_xlabel('t (s)')
+
+plt.suptitle(f'CPA: 450 uL - NF@cit_13h: 50 uL')
+plt.savefig('3_templogs_152_125dA_450-50.png',dpi=300)
+# %%
+dir_4 = '4_CPA-475uL_FF-25uL'
+paths_152_4 = glob(dir_4+'/*152dA*templog*',recursive=True)
+paths_152_4.sort()
+
+fig,ax =plt.subplots(figsize=(10,5),constrained_layout=True)
+
+for i,r in enumerate(paths_152_4):
+    _,t,T, _ = lector_templog(r)
+    ax.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
 ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
+ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
+ax.set_ylabel('T (ºC)')
 ax.set_xlim(0,)
+ax.set_xlabel('t (s)')
+plt.suptitle(f'CPA: 475 uL - NF@cit_13h: 25 uL')
+plt.savefig('4_templogs_152dA_475-25.png',dpi=300)
 
-plt.show()
-#%% 7,8,9 CPA100/050/000 - 500 uL - BT1 repeticion 1,2,3 
-   
-path_7 = '260325_154359_CPA100_BT1_500uL.csv'
-path_8 = '260325_155106_CPA050_BT1_500uL.csv'
-path_9 = '260325_160313_agua_BT1_500uL.csv'
+#%% 400 - 100 concentrada
+dir_5 =  '5_CPA-400uL_FF-100uL_concentrada'
+paths_152_5 = glob(dir_5+'/*152dA*templog*',recursive=True)
+paths_152_5.sort()
 
-_,t_100,T_100,_ = lector_templog(path_7)
-_,t_050,T_050,_ = lector_templog(path_8)
-_,t_agua,T_agua,_ = lector_templog(path_9)
+fig,ax =plt.subplots(figsize=(10,5),constrained_layout=True)
 
-#%
-fig03, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('CPA 100% 50% y 0%  - enfriado en LN2 - expuesto a BT1',loc='left')
-ax.plot(t_agua,T_agua,'.-',label='Agua',alpha=0.8)
-ax.plot(t_050,T_050,'.-',label='CPA050',alpha=0.8)
-ax.plot(t_100,T_100,'.-',label='CPA100',alpha=0.8)
+for i,r in enumerate(paths_152_5):
+    _,t,T, _ = lector_templog(r)
+    ax.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
 ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
+ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
+ax.set_ylabel('T (ºC)')
 ax.set_xlim(0,)
-plt.show()
-
-#%% 10,11,12 CPA100/050/000 - 500 uL - BT1 Vapor repeticion 4,5,6 
-   
-path_10 = '260325_161242_CPA100_BT1_500uL.csv'
-path_11 = '260325_161814_CPA050_BT1_500uL.csv'
-path_12 = '260325_162259_agua_BT1_500uL.csv'
-
-_,t_100,T_100,_ = lector_templog(path_10)
-_,t_050,T_050,_ = lector_templog(path_11)
-_,t_agua,T_agua,_ = lector_templog(path_12)
-
-#%
-fig04, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('CPA 100% 50% y 0%  - enfriado en vapor LN2 - expuesto a BT1',loc='left')
-ax.plot(t_agua,T_agua,'.-',label='Agua',alpha=0.8)
-ax.plot(t_050,T_050,'.-',label='CPA050',alpha=0.8)
-ax.plot(t_100,T_100,'.-',label='CPA100',alpha=0.8)
-
-ax.grid()
-ax.set_ylabel('T (°C)')
 ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
-ax.set_xlim(0,)
-plt.show()
-
-#%% Separo en LN2/ vapor LN2
-en_LN2 = glob('*500uL.csv')
-en_LN2.sort()
-en_vapor = glob('*500uL_vapor.csv')
-en_vapor.sort()
-#%% ploteo en LN2 CPA 100%
-fig100, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('CPA 100% - enfriado en LN2 - expuesto a BT1',loc='center',fontsize=14)
-
-for i,p in enumerate(en_LN2):
-    if 'CPA100' in p:
-        _,t_100,T_100,_ = lector_templog(p)
-        ax.plot(t_100,T_100,'.-',label=p[7:-4],alpha=0.8)
-ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
-ax.set_xlim(0,175)
-# ax.set_ylim(-2,30)
-plt.show()
-
-# %% ploteo en LN2 CPA 50%
-fig050, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('CPA 50% - enfriado en LN2 - expuesto a BT1',loc='center',fontsize=14)
-
-for i,p in enumerate(en_LN2):
-    if 'CPA050' in p:
-        _,t_050,T_050,_ = lector_templog(p)
-        ax.plot(t_050,T_050,'.-',label=p[7:-4],alpha=0.8)
-ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
-ax.set_xlim(0,)
-# ax.set_ylim(-2,30)
-plt.show()
-
-#%% Ploteo agua en LN2 
-fig000, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('Agua - enfriado en LN2 - expuesto a BT1',loc='center',fontsize=14)
-
-for i,p in enumerate(en_LN2):
-    if 'agua' in p:
-        print(' -',p)
-        _,t_agua,T_agua,_ = lector_templog(p)
-        ax.plot(t_agua,T_agua,'.-',label=p[7:-4],alpha=0.8)
-ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
-ax.set_xlim(0,)
-# ax.set_ylim(-2,30)
-plt.show()
-
-#%% calculo TFase en cada caso
-# for i,p in enumerate(en_LN2):
-#     if 'agua' in p:
-#         _,t_agua,T_agua,_ = lector_templog(p)
-#         meseta,_,_,_ =detectar_TF_y_plot(t_agua,T_agua,plot=True,identif=p[7:-4],delta_T=0.7,umbral_dTdt=0.3,min_puntos=5)
-# %% Ahora ploteo en vapor LN2 CPA 100%
-
-fig100_vap, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('CPA 100% - enfriado en vapor de LN2 - expuesto a BT1',loc='center',fontsize=14)
-
-for i,p in enumerate(en_vapor):
-    if 'CPA100' in p:
-        print(' -',p)
-        _,t_100,T_100,_ = lector_templog(p)
-        ax.plot(t_100,T_100,'.-',label=p[7:-4],alpha=0.8)
-ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
-ax.set_xlim(0,700)
-plt.show()
-#%% vapor LN2 CPA 50%
-fig050_vap, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('CPA 50% - enfriado en vapor de LN2 - expuesto a BT1',loc='center',fontsize=14)
-
-print('ploteando: ')
-for i,p in enumerate(en_vapor):
-    if 'CPA050' in p:
-        print(' -',p)
-        _,t_100,T_100,_ = lector_templog(p)
-        ax.plot(t_100,T_100,'.-',label=p[7:-4],alpha=0.8)
-ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
-ax.set_xlim(0,)
-plt.show()
-#%% Vapor LN2 Agua 
-fig000_vap, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-
-ax.set_title('Agua - enfriado en vapor de LN2 - expuesto a BT1',loc='center',fontsize=14)
-
-for i,p in enumerate(en_vapor):
-    if 'agua' in p:
-        print(' -',p)
-        _,t_agua,T_agua,_ = lector_templog(p)
-        ax.plot(t_agua,T_agua,'.-',label=p[7:-4],alpha=0.8)
-ax.grid()
-ax.set_ylabel('T (°C)')
-ax.set_xlabel('t (s)')    
-ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-ax.legend(loc='best',ncol=2)
-ax.set_xlim(0,)
-plt.show()   
-
-# %% salvo figuras
-figs= [fig100,fig050,fig000,fig100_vap,fig050_vap,fig000_vap]
-names= ['CPA100','CPA050','agua','CPA100_vapor','CPA050_vapor','agua_vapor']
-
-for i,f in enumerate(figs):
-    f.savefig(f'{i}_'+names[i]+'.png',dpi=300)
-#%% Comparativas
-
-figLN2, (ax1,ax2,ax3) =plt.subplots(3,1,figsize=(12,10),constrained_layout=True,sharex=True)
-
-ax1.set_title('CPA 100%',loc='left')
-for i,p in enumerate(en_LN2):
-    if 'CPA100' in p:
-        print(' -',p)
-        _,t_100,T_100,_ = lector_templog(p)
-        ax1.plot(t_100,T_100,'.-',label=p[7:-4],alpha=0.8)
-
-ax2.set_title('CPA 50%',loc='left')
-for i,p in enumerate(en_LN2):
-    if 'CPA050' in p:
-        print(' -',p)
-        _,t_050,T_050,_ = lector_templog(p)
-        ax2.plot(t_050,T_050,'.-',label=p[7:-4],alpha=0.8)
-        
-ax3.set_title('Agua',loc='left')
-for i,p in enumerate(en_LN2):
-    if 'agua' in p:
-        print(' -',p)
-        _,t_agua,T_agua,_ = lector_templog(p)
-        ax3.plot(t_agua,T_agua,'.-',label=p[7:-4],alpha=0.8)
-for ax in [ax1,ax2,ax3]:
-    ax.grid()
-    ax.set_ylabel('T (°C)')
-    ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-    ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-    ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-    ax.legend(loc='best',ncol=2)
-
-ax3.set_xlabel('t (s)')    
-ax3.set_xlim(0,200)
-plt.suptitle('CPA 100% 50% y 0%  - enfriado en LN2 - expuesto a BT1',fontsize=14)
-plt.savefig('comparativas_100_050_000_en_LN2.png',dpi=300)
-plt.show()   
-
-#%%
-figvapor, (ax1,ax2,ax3) =plt.subplots(3,1,figsize=(12,10),constrained_layout=True,sharex=True)
-
-ax1.set_title('CPA 100%',loc='left')
-for i,p in enumerate(en_vapor):
-    if 'CPA100' in p:
-        print(' -',p)
-        _,t_100,T_100,_ = lector_templog(p)
-        ax1.plot(t_100,T_100,'.-',label=p[7:-4],alpha=0.8)
-
-ax2.set_title('CPA 50%',loc='left')
-for i,p in enumerate(en_vapor):
-    if 'CPA050' in p:
-        print(' -',p)
-        _,t_050,T_050,_ = lector_templog(p)
-        ax2.plot(t_050,T_050,'.-',label=p[7:-4],alpha=0.8)
-        
-ax3.set_title('Agua',loc='left')
-for i,p in enumerate(en_vapor):
-    if 'agua' in p:
-        print(' -',p)
-        _,t_agua,T_agua,_ = lector_templog(p)
-        ax3.plot(t_agua,T_agua,'.-',label=p[7:-4],alpha=0.8)
-for ax in [ax1,ax2,ax3]:
-    ax.grid()
-    ax.set_ylabel('T (°C)')
-    ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-    ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-    ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-    ax.legend(loc='best',ncol=2)
-
-ax3.set_xlabel('t (s)')    
-ax3.set_xlim(0,700)
-plt.suptitle('CPA 100% 50% y 0%  - enfriado en vapor de LN2 - expuesto a BT1',fontsize=14)
-plt.savefig('comparativas_100_050_000_en_vapor_LN2.png',dpi=300)
-plt.show()   
+plt.suptitle(f'CPA: 400 uL - NF@cit_13h: 100 uL (concentrada)')
+plt.savefig('5_templogs_152dA_400-100_concentrada.png',dpi=300)
