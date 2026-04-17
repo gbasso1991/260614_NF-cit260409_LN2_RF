@@ -326,7 +326,7 @@ ax.set_xlabel('t (s)')
 plt.suptitle(f'95% CPA (475 uL) - 5% NF@cit_13h (25 uL)')
 plt.savefig('4_templogs_152dA_475-25.png',dpi=300)
 
-#%% 400 - 100 concentrada
+ #%% 400 - 100 concentrada
 dir_5 =  '5_CPA-400uL_FF-100uL_concentrada'
 paths_152_5 = glob(dir_5+'/*152dA*templog*',recursive=True)
 paths_152_5.sort()
