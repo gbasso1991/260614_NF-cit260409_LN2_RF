@@ -184,7 +184,7 @@ paths_100_1 = glob(dir_1+'/*100dA*templog*',recursive=True)
 paths_100_1.sort()
 paths_RT_1 = glob(dir_1+'/*sincampo*templog*',recursive=True)
 
-fig00, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,8),constrained_layout=True,sharey=True,sharex=True
+fig00, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,9),constrained_layout=True,sharey=True,sharex=True
                                   )
 _,t_RT,T_RT,_ = lector_templog(paths_RT_1[0])
 
@@ -200,25 +200,28 @@ for i,r in enumerate(paths_100_1):
     _,t,T, _ = lector_templog(r)
     ax3.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
-ax3.plot(t_RT,T_RT,'.-',label='RT')
+# ax3.plot(t_RT,T_RT,'.-',label='RT')
 
 for a in ax,ax2,ax3:
     a.grid()
     a.set_ylabel('T (ºC)')
     a.set_xlim(0,)
+    a.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
+    a.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
+    a.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
 
-ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',loc='lower right',frameon=True,shadow=True)
-ax2.legend(title='$f$= 300 kHz - $H_0$=47 kA/m',loc='lower right',frameon=True,shadow=True)
-ax3.legend(title='$f$= 300 kHz - $H_0$=38 kA/m',loc='lower right',frameon=True,shadow=True)
+ax.legend(ncol=2,title='$H_0$ = 58 kA/m',loc='lower right',frameon=True,shadow=True)
+ax2.legend(ncol=2,title='$H_0$ = 47 kA/m',loc='lower right',frameon=True,shadow=True)
+ax3.legend(ncol=2,title='$H_0$ = 38 kA/m',loc='lower right',frameon=True,shadow=True)
 
 ax3.set_xlabel('t (s)')
 # ax.set_title('58 kA/m',loc='left')
 # ax2.set_title('47 kA/m',loc='left')
 # ax3.set_title('38 kA/m',loc='left')
-plt.suptitle(f'CPA: 400 uL - NF@cit_13h: 100 uL')
+plt.suptitle('80% CPA (400 uL) - 20% NF@cit_13h (100 uL) diluida')
 plt.savefig('1_templogs_152_125_100_RT_400_100_misma_escala.png',dpi=300)
 
-fig01, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,8),constrained_layout=True,sharey=True,sharex=False)
+fig01, (ax,ax2,ax3) =plt.subplots(3,1,figsize=(12,9),constrained_layout=True,sharey=True,sharex=False)
 
 _,t_RT,T_RT,_ = lector_templog(paths_RT_1[0])
 
@@ -234,31 +237,34 @@ for i,r in enumerate(paths_100_1):
     _,t,T, _ = lector_templog(r)
     ax3.plot(t,T,'.-',label=r.split('_')[-1][:-4])
 
-ax3.plot(t_RT,T_RT,'.-',label='RT')
+# ax3.plot(t_RT,T_RT,'.-',label='RT')
 
 for a in [ax,ax2,ax3]:
     a.grid()
     a.set_ylabel('T (ºC)')
     a.set_xlim(0,)
+    a.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
+    a.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
+    a.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
 ax3.set_xlabel('t (s)')
 
-ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',loc='lower right',frameon=True,shadow=True)
-ax2.legend(title='$f$= 300 kHz - $H_0$=47 kA/m',loc='lower right',frameon=True,shadow=True)
-ax3.legend(title='$f$= 300 kHz - $H_0$=38 kA/m',loc='lower right',frameon=True,shadow=True)
+ax.legend(ncol=2,title='$H_0$ = 58 kA/m',loc='lower right',frameon=True,shadow=True)
+ax2.legend(ncol=2,title='$H_0$ = 47 kA/m',loc='lower right',frameon=True,shadow=True)
+ax3.legend(ncol=2,title='$H_0$ = 38 kA/m',loc='lower right',frameon=True,shadow=True)
 
 # ax.set_title('58 kA/m',loc='left')
 # ax2.set_title('47 kA/m',loc='left')
 # ax3.set_title('38 kA/m',loc='left')
-plt.suptitle(f'CPA: 400 uL - NF@cit_13h: 100 uL')
+plt.suptitle('80% CPA (400 uL) - 20% NF@cit_13h (100 uL) diluida')
 plt.savefig('1_templogs_152_125_100_RT_400_100_distinta_escala.png',dpi=300)
 
-#%% 425 CPA - 75 FF - NF@cit_13h diluido a la mitad
+#%% 425 CPA - 75 FF - NF@cit_13h
 
 dir_2 =  '2_CPA-425uL_FF-75uL_concentrada'
 paths_152_2 = glob(dir_2+'/*152dA*templog*',recursive=True)
 paths_152_2.sort()
 
-fig10, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
+fig10, ax =plt.subplots(figsize=(12,5),constrained_layout=True)
 
 for i,r in enumerate(paths_152_2):
     _,t,T, _ = lector_templog(r)
@@ -269,10 +275,10 @@ ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
 ax.set_ylabel('T (ºC)')
 ax.set_xlim(0,)
 ax.set_xlabel('t (s)')
-plt.suptitle(f'CPA: 425 uL - NF@cit_13h: 75 uL')
+plt.suptitle(f'85% CPA (425 uL) - 15% NF@cit_13h (75 uL)')
 plt.savefig('2_templogs_152dA_425-75.png',dpi=300)
 
-#%% 450 CPA - 50 FF - NF@cit_13h diluido a la mitad
+#%% 450 CPA - 50 FF - NF@cit_13h 
 dir_3 =  '3_CPA-450uL_FF-50uL_concentrada'
 paths_152_3 = glob(dir_3+'/*152dA*templog*',recursive=True)
 paths_152_3.sort()
@@ -280,7 +286,7 @@ paths_152_3.sort()
 paths_125_3 = glob(dir_3+'/*125dA*templog*',recursive=True)
 paths_125_3.sort()
 
-fig30, (ax,ax2) =plt.subplots(2,1,figsize=(10,7),constrained_layout=True,sharex=True)
+fig30, (ax,ax2) =plt.subplots(2,1,figsize=(12,7),constrained_layout=True,sharex=True)
 
 for i,r in enumerate(paths_152_3):
     _,t,T, _ = lector_templog(r)
@@ -299,14 +305,14 @@ ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
 ax2.legend(title=' $f$= 300 kHz - $H_0$=47 kA/m',frameon=True,shadow=True)
 ax2.set_xlabel('t (s)')
 
-plt.suptitle(f'CPA: 450 uL - NF@cit_13h: 50 uL')
+plt.suptitle(f'90% CPA (450 uL) - 10% NF@cit_13h (50 uL)')
 plt.savefig('3_templogs_152_125dA_450-50.png',dpi=300)
-# %%
+# %% 475 CPA - 25 FF - NF@cit_13h
 dir_4 = '4_CPA-475uL_FF-25uL_concentrada'
 paths_152_4 = glob(dir_4+'/*152dA*templog*',recursive=True)
 paths_152_4.sort()
 
-fig,ax =plt.subplots(figsize=(10,5),constrained_layout=True)
+fig,ax =plt.subplots(figsize=(12,5),constrained_layout=True)
 
 for i,r in enumerate(paths_152_4):
     _,t,T, _ = lector_templog(r)
@@ -317,7 +323,7 @@ ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
 ax.set_ylabel('T (ºC)')
 ax.set_xlim(0,)
 ax.set_xlabel('t (s)')
-plt.suptitle(f'CPA: 475 uL - NF@cit_13h: 25 uL')
+plt.suptitle(f'95% CPA (475 uL) - 5% NF@cit_13h (25 uL)')
 plt.savefig('4_templogs_152dA_475-25.png',dpi=300)
 
 #%% 400 - 100 concentrada
@@ -325,7 +331,7 @@ dir_5 =  '5_CPA-400uL_FF-100uL_concentrada'
 paths_152_5 = glob(dir_5+'/*152dA*templog*',recursive=True)
 paths_152_5.sort()
 
-fig,ax =plt.subplots(figsize=(10,5),constrained_layout=True)
+fig,ax =plt.subplots(figsize=(12,5),constrained_layout=True)
 
 for i,r in enumerate(paths_152_5):
     _,t,T, _ = lector_templog(r)
@@ -336,7 +342,7 @@ ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',frameon=True,shadow=True)
 ax.set_ylabel('T (ºC)')
 ax.set_xlim(0,)
 ax.set_xlabel('t (s)')
-plt.suptitle(f'CPA: 400 uL - NF@cit_13h: 100 uL (concentrada)')
+plt.suptitle(f'80% CPA (400 uL) - 20% NF@cit_13h (100 uL)')
 plt.savefig('5_templogs_152dA_400-100_concentrada.png',dpi=300)
 # %% Ahora comparo los calentamientos a RT
 path_RT_CPA500 = '260415_050229_CPA_puro.csv'
@@ -359,7 +365,7 @@ ax.legend(ncol=2,frameon=True,shadow=True)
 ax.set_ylabel('T (ºC)')
 ax.set_xlim(0,1000)
 ax.set_xlabel('t (s)')
-plt.suptitle('comparacion calentamientos a RT')
+plt.suptitle('Comparacion calentamientos a RT')
 plt.savefig('comparacion_calentamientos_RT_CPA500_400-100_diluida_400-100_concentrada.png',dpi=300)
 # %% Comparo lo expuesto a 152dA
 
@@ -368,37 +374,6 @@ paths_425_75  = glob(dir_2+'/*152dA*templog*',recursive=True)
 paths_450_50  = glob(dir_3+'/*152dA*templog*',recursive=True)
 paths_475_25  = glob(dir_4+'/*152dA*templog*',recursive=True)
 
-
-fig, axs =plt.subplots(3,1,figsize=(12,9),constrained_layout=True,sharex=True)
-
-for j in range(3):
-    _,t,T, _ = lector_templog(paths_400_100[j])
-    axs[j].plot(t,T,'.-',label='CPA 400 uL - FF 100 uL')
-
-
-    _,t,T, _ = lector_templog(paths_425_75[j])
-    axs[j].plot(t,T,'.-',label='CPA 425 uL - FF 75 uL')
-
-    
-    _,t,T, _ = lector_templog(paths_450_50[j])
-    axs[j].plot(t,T,'.-',label='CPA 450 uL - FF 50 uL')
-
-    _,t,T, _ = lector_templog(paths_475_25[j])
-    axs[j].plot(t,T,'.-',label='CPA 475 uL - FF 25 uL')
-
-
-for a in axs:
-    a.grid()
-    a.set_ylabel('T (ºC)')
-    a.set_xlim(0,250)
-    a.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
-    a.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
-    a.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
-    a.legend(ncol=2,frameon=True,shadow=True)
-ax3.set_xlabel('t (s)')
-plt.suptitle('Comparación de calentamientos a $H_0$ = 58 kA/m (152 dA) - $f$ = 300 kHz')
-plt.savefig('comparacion_calentamientos_152dA_400-100_425-75_450-50_475-25.png',dpi=300)
-# %% Idem pero cambio labels
 
 fig2, axs =plt.subplots(3,1,figsize=(12,9),constrained_layout=True,sharex=True)
 
@@ -428,5 +403,39 @@ for a in axs:
     a.legend(ncol=2,frameon=True,shadow=True)
 ax3.set_xlabel('t (s)')
 plt.suptitle('Comparación de calentamientos a $H_0$ = 58 kA/m (152 dA) - $f$ = 300 kHz')
-plt.savefig('comparacion_calentamientos_152dA_400-100_425-75_450-50_475-25_bis.png',dpi=300)
+plt.savefig('comparacion_calentamientos_152dA_400-100_425-75_450-50_475-25.png',dpi=300)
+
+
+# fig, axs =plt.subplots(3,1,figsize=(12,9),constrained_layout=True,sharex=True)
+
+# for j in range(3):
+#     _,t,T, _ = lector_templog(paths_400_100[j])
+#     axs[j].plot(t,T,'.-',label='CPA 400 uL - FF 100 uL')
+
+
+#     _,t,T, _ = lector_templog(paths_425_75[j])
+#     axs[j].plot(t,T,'.-',label='CPA 425 uL - FF 75 uL')
+
+    
+#     _,t,T, _ = lector_templog(paths_450_50[j])
+#     axs[j].plot(t,T,'.-',label='CPA 450 uL - FF 50 uL')
+
+#     _,t,T, _ = lector_templog(paths_475_25[j])
+#     axs[j].plot(t,T,'.-',label='CPA 475 uL - FF 25 uL')
+
+
+# for a in axs:
+#     a.grid()
+#     a.set_ylabel('T (ºC)')
+#     a.set_xlim(0,250)
+#     a.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
+#     a.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
+#     a.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
+#     a.legend(ncol=2,frameon=True,shadow=True)
+# ax3.set_xlabel('t (s)')
+# plt.suptitle('Comparación de calentamientos a $H_0$ = 58 kA/m (152 dA) - $f$ = 300 kHz')
+# plt.savefig('comparacion_calentamientos_152dA_400-100_425-75_450-50_475-25.png',dpi=300)
+# %% Idem pero cambio labels
+
+
 # %%
