@@ -347,20 +347,20 @@ _,t_RT_CPA500,T_RT_CPA500, _ = lector_templog(path_RT_CPA500)
 _,t_RT_CPA400_FF100,T_RT_CPA400_FF100, _ = lector_templog(path_RT_CPA400_FF100)
 _,t_RT_CPA400_FF100_conc,T_RT_CPA400_FF100_conc, _ = lector_templog(path_RT_CPA400_FF100_conc)
 
-fig, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
-ax.plot(t_RT_CPA500,T_RT_CPA500,'.-',label='CPA puro')
-ax.plot(t_RT_CPA400_FF100,T_RT_CPA400_FF100,'.-',label='CPA 400 uL - FF 100 uL (diluida)')
-ax.plot(t_RT_CPA400_FF100_conc,T_RT_CPA400_FF100_conc,'.-',label='CPA 400 uL - FF 100 uL (concentrada)')
+fig, ax =plt.subplots(figsize=(12,5),constrained_layout=True)
+ax.plot(t_RT_CPA500,T_RT_CPA500,'.-',label='100% CPA')
+ax.plot(t_RT_CPA400_FF100,T_RT_CPA400_FF100,'.-',label='80% CPA - 20% FF (diluida)')
+ax.plot(t_RT_CPA400_FF100_conc,T_RT_CPA400_FF100_conc,'.-',label='80% CPA - 20% FF (concentrada)')
 ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
 ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
 ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
 ax.grid()
 ax.legend(ncol=2,frameon=True,shadow=True)
 ax.set_ylabel('T (ºC)')
-ax.set_xlim(0,800)
+ax.set_xlim(0,1000)
 ax.set_xlabel('t (s)')
-ax.set_title('Exposicion a RT')
-plt.savefig('calentamiento_RT_CPA500_CPA400_FF100_diluida_concentrada.png',dpi=300)
+plt.suptitle('comparacion calentamientos a RT')
+plt.savefig('comparacion_calentamientos_RT_CPA500_400-100_diluida_400-100_concentrada.png',dpi=300)
 # %% Comparo lo expuesto a 152dA
 
 paths_400_100 = glob(dir_5+'/*152dA*templog*',recursive=True)
@@ -398,4 +398,35 @@ for a in axs:
 ax3.set_xlabel('t (s)')
 plt.suptitle('Comparación de calentamientos a $H_0$ = 58 kA/m (152 dA) - $f$ = 300 kHz')
 plt.savefig('comparacion_calentamientos_152dA_400-100_425-75_450-50_475-25.png',dpi=300)
+# %% Idem pero cambio labels
+
+fig2, axs =plt.subplots(3,1,figsize=(12,9),constrained_layout=True,sharex=True)
+
+for j in range(3):
+    _,t,T, _ = lector_templog(paths_400_100[j])
+    axs[j].plot(t,T,'.-',label='80% CPA - 20% FF')
+
+
+    _,t,T, _ = lector_templog(paths_425_75[j])
+    axs[j].plot(t,T,'.-',label='85% CPA - 15% FF')
+
+    
+    _,t,T, _ = lector_templog(paths_450_50[j])
+    axs[j].plot(t,T,'.-',label='90% CPA - 10% FF')
+
+    _,t,T, _ = lector_templog(paths_475_25[j])
+    axs[j].plot(t,T,'.-',label='95% CPA -  5% FF')
+
+
+for a in axs:
+    a.grid()
+    a.set_ylabel('T (ºC)')
+    a.set_xlim(0,250)
+    a.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
+    a.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
+    a.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
+    a.legend(ncol=2,frameon=True,shadow=True)
+ax3.set_xlabel('t (s)')
+plt.suptitle('Comparación de calentamientos a $H_0$ = 58 kA/m (152 dA) - $f$ = 300 kHz')
+plt.savefig('comparacion_calentamientos_152dA_400-100_425-75_450-50_475-25_bis.png',dpi=300)
 # %%
