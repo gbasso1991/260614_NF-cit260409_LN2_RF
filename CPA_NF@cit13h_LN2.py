@@ -14,17 +14,17 @@ from scipy.optimize import curve_fit
 def lector_templog(path):
     '''
     Busca archivo *templog.csv en directorio especificado.
-    muestras = False plotea solo T(dt). 
+    muestras = False plotea solo T(dt).
     muestras = True plotea T(dt) con las muestras superpuestas
-    Retorna arrys timestamp,temperatura 
+    Retorna arrys timestamp,temperatura
     '''
     data = pd.read_csv(path,sep=';',header=5,
                             names=('Timestamp','T_CH1','T_CH2'),usecols=(0,1,2),
-                            decimal=',',engine='python') 
+                            decimal=',',engine='python')
     temp_CH1  = pd.Series(data['T_CH1']).to_numpy(dtype=float)
     temp_CH2  = pd.Series(data['T_CH2']).to_numpy(dtype=float)
-    timestamp = np.array([datetime.strptime(date,'%Y/%m/%d %H:%M:%S') for date in data['Timestamp']]) 
-    
+    timestamp = np.array([datetime.strptime(date,'%Y/%m/%d %H:%M:%S') for date in data['Timestamp']])
+
     time = np.array([(t-timestamp[0]).total_seconds() for t in timestamp])
     return timestamp,time,temp_CH1, temp_CH2
 #%% Transicion de fase
@@ -175,7 +175,7 @@ def detectar_TF_y_plot(t,T,T_central=0,delta_T=0.2,umbral_dTdt=0.15,min_puntos=5
 
     return mesetas, None, None, None
 #%% 400 CPA - 100 FF - NF@cit_13h diluido a la mitad
-dir_1 =  '1_CPA-400uL_FF-100uL'
+dir_1 =  '1_CPA-400uL_FF-100uL_diluida'
 paths_152_1 = glob(dir_1+'/*152dA*templog*',recursive=True)
 paths_152_1.sort()
 paths_125_1 = glob(dir_1+'/*125dA*templog*',recursive=True)
@@ -206,7 +206,7 @@ for a in ax,ax2,ax3:
     a.grid()
     a.set_ylabel('T (ºC)')
     a.set_xlim(0,)
-    
+
 ax.legend(title='$f$= 300 kHz - $H_0$=58 kA/m',loc='lower right',frameon=True,shadow=True)
 ax2.legend(title='$f$= 300 kHz - $H_0$=47 kA/m',loc='lower right',frameon=True,shadow=True)
 ax3.legend(title='$f$= 300 kHz - $H_0$=38 kA/m',loc='lower right',frameon=True,shadow=True)
@@ -236,7 +236,7 @@ for i,r in enumerate(paths_100_1):
 
 ax3.plot(t_RT,T_RT,'.-',label='RT')
 
-for a in ax,ax2,ax3:
+for a in [ax,ax2,ax3]:
     a.grid()
     a.set_ylabel('T (ºC)')
     a.set_xlim(0,)
@@ -254,7 +254,7 @@ plt.savefig('1_templogs_152_125_100_RT_400_100_distinta_escala.png',dpi=300)
 
 #%% 425 CPA - 75 FF - NF@cit_13h diluido a la mitad
 
-dir_2 =  '2_CPA-425uL_FF-75uL'
+dir_2 =  '2_CPA-425uL_FF-75uL_concentrada'
 paths_152_2 = glob(dir_2+'/*152dA*templog*',recursive=True)
 paths_152_2.sort()
 
@@ -273,7 +273,7 @@ plt.suptitle(f'CPA: 425 uL - NF@cit_13h: 75 uL')
 plt.savefig('2_templogs_152dA_425-75.png',dpi=300)
 
 #%% 450 CPA - 50 FF - NF@cit_13h diluido a la mitad
-dir_3 =  '3_CPA-450uL_FF-50uL'
+dir_3 =  '3_CPA-450uL_FF-50uL_concentrada'
 paths_152_3 = glob(dir_3+'/*152dA*templog*',recursive=True)
 paths_152_3.sort()
 
@@ -289,7 +289,7 @@ for i,r in enumerate(paths_152_3):
 for i,r in enumerate(paths_125_3):
     _,t,T, _ = lector_templog(r)
     ax2.plot(t,T,'.-',label=r.split('_')[-1][:-4])
-    
+
 for a in ax,ax2:
     a.grid()
     a.set_ylabel('T (ºC)')
@@ -302,7 +302,7 @@ ax2.set_xlabel('t (s)')
 plt.suptitle(f'CPA: 450 uL - NF@cit_13h: 50 uL')
 plt.savefig('3_templogs_152_125dA_450-50.png',dpi=300)
 # %%
-dir_4 = '4_CPA-475uL_FF-25uL'
+dir_4 = '4_CPA-475uL_FF-25uL_concentrada'
 paths_152_4 = glob(dir_4+'/*152dA*templog*',recursive=True)
 paths_152_4.sort()
 
@@ -338,3 +338,64 @@ ax.set_xlim(0,)
 ax.set_xlabel('t (s)')
 plt.suptitle(f'CPA: 400 uL - NF@cit_13h: 100 uL (concentrada)')
 plt.savefig('5_templogs_152dA_400-100_concentrada.png',dpi=300)
+# %% Ahora comparo los calentamientos a RT
+path_RT_CPA500 = '260415_050229_CPA_puro.csv'
+path_RT_CPA400_FF100 = '1_CPA-400uL_FF-100uL_diluida/260415_124355_sincampo_templog10.csv'
+path_RT_CPA400_FF100_conc = '5_CPA-400uL_FF-100uL_concentrada/260416_103137_RT_templog04.csv'
+
+_,t_RT_CPA500,T_RT_CPA500, _ = lector_templog(path_RT_CPA500)
+_,t_RT_CPA400_FF100,T_RT_CPA400_FF100, _ = lector_templog(path_RT_CPA400_FF100)
+_,t_RT_CPA400_FF100_conc,T_RT_CPA400_FF100_conc, _ = lector_templog(path_RT_CPA400_FF100_conc)
+
+fig, ax =plt.subplots(figsize=(10,5),constrained_layout=True)
+ax.plot(t_RT_CPA500,T_RT_CPA500,'.-',label='CPA puro')
+ax.plot(t_RT_CPA400_FF100,T_RT_CPA400_FF100,'.-',label='CPA 400 uL - FF 100 uL (diluida)')
+ax.plot(t_RT_CPA400_FF100_conc,T_RT_CPA400_FF100_conc,'.-',label='CPA 400 uL - FF 100 uL (concentrada)')
+ax.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
+ax.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
+ax.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
+ax.grid()
+ax.legend(ncol=2,frameon=True,shadow=True)
+ax.set_ylabel('T (ºC)')
+ax.set_xlim(0,800)
+ax.set_xlabel('t (s)')
+ax.set_title('Exposicion a RT')
+plt.savefig('calentamiento_RT_CPA500_CPA400_FF100_diluida_concentrada.png',dpi=300)
+# %% Comparo lo expuesto a 152dA
+
+paths_400_100 = glob(dir_5+'/*152dA*templog*',recursive=True)
+paths_425_75  = glob(dir_2+'/*152dA*templog*',recursive=True)
+paths_450_50  = glob(dir_3+'/*152dA*templog*',recursive=True)
+paths_475_25  = glob(dir_4+'/*152dA*templog*',recursive=True)
+
+
+fig, axs =plt.subplots(3,1,figsize=(12,9),constrained_layout=True,sharex=True)
+
+for j in range(3):
+    _,t,T, _ = lector_templog(paths_400_100[j])
+    axs[j].plot(t,T,'.-',label='CPA 400 uL - FF 100 uL')
+
+
+    _,t,T, _ = lector_templog(paths_425_75[j])
+    axs[j].plot(t,T,'.-',label='CPA 425 uL - FF 75 uL')
+
+    
+    _,t,T, _ = lector_templog(paths_450_50[j])
+    axs[j].plot(t,T,'.-',label='CPA 450 uL - FF 50 uL')
+
+    _,t,T, _ = lector_templog(paths_475_25[j])
+    axs[j].plot(t,T,'.-',label='CPA 475 uL - FF 25 uL')
+
+
+for a in axs:
+    a.grid()
+    a.set_ylabel('T (ºC)')
+    a.set_xlim(0,250)
+    a.axhline(y=0,c='k',lw=0.8,label='T = 0°C')
+    a.axhline(-43,c='k',ls='--',lw=0.8,label='T$_m$ = -43°C')
+    a.axhline(-121,c='k',ls='-.',lw=0.8,label='T$_g$ = -121°C')
+    a.legend(ncol=2,frameon=True,shadow=True)
+ax3.set_xlabel('t (s)')
+plt.suptitle('Comparación de calentamientos a $H_0$ = 58 kA/m (152 dA) - $f$ = 300 kHz')
+plt.savefig('comparacion_calentamientos_152dA_400-100_425-75_450-50_475-25.png',dpi=300)
+# %%
